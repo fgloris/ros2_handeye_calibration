@@ -122,7 +122,11 @@ class DataCollector(Node):
         if cal is None:
             msg = "Not enough samples yet..."
         else:
-            self.get_logger().info("Current estimate of: " + self.tracking_base_frame + " -> " + self.robot_base_frame)
+            if self.calibration_type == "eye-in-hand":
+                self.get_logger().info("Current estimate of: " + self.tracking_base_frame + " -> " + self.robot_effector_frame)
+            elif self.calibration_type == "eye-on-base":
+                self.get_logger().info("Current estimate of: " + self.tracking_base_frame + " -> " + self.robot_base_frame)
+                
             self.get_logger().info("transform: " + tf_list_to_string(cal))
             self.get_logger().info("as euler: " + urdf_list_to_string(tf_to_urdf_tf(cal)))
             msg = "Current estimate: " + tf_list_to_string(cal) + " as euler: " + urdf_list_to_string(tf_to_urdf_tf(cal))
